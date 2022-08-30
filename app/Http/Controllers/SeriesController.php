@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
-    public function index(Request $request) {
-
-        dd($request);
+    public function index(Request $request) 
+    {
+        //dd($request);
 
         $series = [
             'série 1',
@@ -16,12 +16,11 @@ class SeriesController extends Controller
             'série 3',
         ];
 
-        $html = '<ul>';
-        foreach ($series as $serie) {
-            $html .= "<li>$serie</li>";
-        }
-        $html .= '</ul>';
+        // return view('listar-series', compact('series'));
+        return view('series.index')->with('series', $series);
+    }
 
-        echo $html;
+    public function create() {
+        return view('series.create');
     }
 }
