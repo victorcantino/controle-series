@@ -18,4 +18,6 @@ Route::get('/', function () {
     return redirect('/series');
 });
 
-Route::resource('/series', SeriesController::class);
+Route::resource('/series', SeriesController::class)->except(['show']);
+
+// Route::delete('/series/apagar/{id}', [SeriesController::class, 'destroy'])->name('series.destroy');
