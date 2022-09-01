@@ -10,10 +10,8 @@ class SeriesController extends Controller
 {
     public function index(Request $request) 
     {
-        // $series = Serie::all();
-        // return view('listar-series', compact('series'));
-        $series = Serie::query()->orderBy('nome')->get();
-        $mensagemSucesso = $request->session()->get('mensagem.sucesso');
+        $series = Serie::with(['seasons'])->get();
+        $mensagemSucesso = session('mensagem.sucesso');
         return view('series.index')
             ->with('series', $series)
             ->with('mensagemSucesso', $mensagemSucesso);
@@ -25,13 +23,6 @@ class SeriesController extends Controller
 
     public function store(SeriesRequest $request)
     {
-        // $serie = new Serie();
-        // $serie->nome = $request->input('nome');
-        // $serie->save();
-        // return redirect('/series');
-        // return redirect(route('series.index'));
-        // return redirect()->route('series.index');
-
         $serie = Serie::create($request->all());
         return to_route('series.index')
             ->with('mensagem.sucesso', "Série '$serie->nome' adicionada com sucesso");
@@ -53,6 +44,8 @@ class SeriesController extends Controller
 
     public function edit(Serie $series)
     {
+        // dd($series->seasons); // pelo atributo eu pego a coleção
+        // dd($series->seasonsO); // pelo método eu pego o relacionamento e posso fazer queries
         return view('series.edit')
             ->with(['serie' => $series]);
     }
